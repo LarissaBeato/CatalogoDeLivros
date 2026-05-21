@@ -1,0 +1,25 @@
+{
+  "livros": [
+    {
+      "id": 1,
+      "titulo": "Dom Casmurro",
+      "autor": "Machado de Assis",
+      "genero": "Romance",
+      "resumo": "Bentinho narra sua juventude, seu relacionamento com Capitu e as dúvidas que marcaram sua vida."
+    },
+    {
+      "id": 2,
+      "titulo": "A Hora da Estrela",
+      "autor": "Clarice Lispector",
+      "genero": "Ficção brasileira",
+      "resumo": "A trajetória de Macabéa revela solidão, delicadeza e crítica social em uma narrativa intensa."
+    },
+    {
+      "id": 3,
+      "titulo": "O Pequeno Príncipe",
+      "autor": "Antoine de Saint-Exupéry",
+      "genero": "Fábula",
+      "resumo": "Um príncipe viajante apresenta reflexões sobre amizade, responsabilidade e o sentido das relações humanas."
+    }
+  ]
+}

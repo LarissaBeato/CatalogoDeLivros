@@ -1,0 +1,29 @@
+<section class="list-box">
+  <div class="top-bar">
+    <h2>Lista de livros</h2>
+    <a routerLink="/cadastrar-livro" class="btn">Novo Livro</a>
+  </div>
+  @if (livros.length === 0){
+  <div class="empty-state">
+    <p>Nenhum livro cadastrado até o momento.</p>
+  </div>
+  }
+  <div class="livro-grid">
+  @for (livro of livros; track livro.id){
+  <div class="livro-item">
+    <h3>{{ livro.titulo }}</h3>
+    <p><strong>Autor: </strong>{{ livro.autor }}</p>
+    <p><strong>Gênero: </strong>{{ livro.genero }}</p>
+    <p><strong>Resumo: </strong>{{ livro.resumo }}</p>
+    <div class="actions">
+      <button type="button" class="edit-btn" (click)="edit(livro.id)">
+        Editar
+      </button>
+      <button type="button" class="delete-btn" (click)="remove(livro.id)">
+        Excluir
+      </button>
+    </div>
+  </div>
+  }
+  </div>
+</section>

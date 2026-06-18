@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { LivroLocal } from '../../../core/services/livro-local';
+import { LivroApi } from '../../../core/services/livro-api';
 
 @Component({
   selector: 'app-livro-form',
@@ -12,11 +12,15 @@ import { LivroLocal } from '../../../core/services/livro-local';
 })
 export class LivroForm implements OnInit {
   private fb = inject(FormBuilder);
-  private livroLocalService = inject(LivroLocal);
+  private livroApiService = inject(LivroApi);
   private route = inject(ActivatedRoute);
   private router = inject(Router);
 
-  editingId: number | null = null;
+  loading = false;
+  loadingData = false;
+  successMessage = '';
+  errorMessage = '';
+  id: string | null = null;
 
   form = this.fb.nonNullable.group({
     titulo: ['', [Validators.required, Validators.minLength(3)]],
@@ -26,46 +30,63 @@ export class LivroForm implements OnInit {
   });
 
   ngOnInit(): void {
-    const id = this.route.snapshot.queryParamMap.get('id');
-    if (id) {
-      this.editingId = Number(id);
-      const livro = this.livroLocalService.getById(this.editingId);
-      if (livro) {
-        this.form.patchValue({
-          titulo: livro.titulo,
-          autor: livro.autor,
-          genero: livro.genero,
-          resumo: livro.resumo,
-        });
-      }
+    this.id = this.route.snapshot.queryParamMap.get('id');
+
+    if (this.id) {
+      this.loadLivro(this.id);
     }
   }
 
-  submit(): void {
+  loadLivro(id: string) {
+    this.loadingData = true;
+    this.livroApiService.getById(id).subscribe({
+      next: (livro) => {
+        this.form.patchValue(livro);
+        this.loadingData = false;
+      },
+      error: (err) => {
+        this.errorMessage = 'Erro ao carregar livro.';
+        this.loadingData = false;
+      },
+    });
+  }
+
+  submit() {
     if (this.form.invalid) {
       this.form.markAllAsTouched();
       return;
     }
 
+    this.loading = true;
+    this.successMessage = '';
+    this.errorMessage = '';
+
     const formValue = this.form.getRawValue();
-    if (this.editingId !== null) {
-      this.livroLocalService.update({
-        id: this.editingId,
-        titulo: formValue.titulo,
-        autor: formValue.autor,
-        genero: formValue.genero,
-        resumo: formValue.resumo,
+
+    if (this.id) {
+      this.livroApiService.update(this.id, formValue).subscribe({
+        next: () => {
+          this.successMessage = 'Livro atualizado com sucesso!';
+          this.loading = false;
+          setTimeout(() => this.router.navigate(['/livros']), 2000);
+        },
+        error: () => {
+          this.errorMessage = 'Erro ao atualizar livro.';
+          this.loading = false;
+        },
       });
     } else {
-      this.livroLocalService.add({
-        id: Date.now(),
-        titulo: formValue.titulo,
-        autor: formValue.autor,
-        genero: formValue.genero,
-        resumo: formValue.resumo,
+      this.livroApiService.create(formValue).subscribe({
+        next: () => {
+          this.successMessage = 'Livro cadastrado com sucesso!';
+          this.loading = false;
+          setTimeout(() => this.router.navigate(['/livros']), 2000);
+        },
+        error: () => {
+          this.errorMessage = 'Erro ao cadastrar livro.';
+          this.loading = false;
+        },
       });
     }
-
-    this.router.navigate(['/livros']);
   }
 }

@@ -25,3 +25,24 @@
 .menu a:hover {
   color: #8b5e34;
 }
+
+.user-name {
+  color: #fff;
+  margin-left: 20px;
+  font-weight: bold;
+}
+
+.logout-btn {
+  background: none;
+  border: 1px solid #ff3d3d;
+  color: #ff3d3d;
+  padding: 5px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-left: 10px;
+}
+
+.logout-btn:hover {
+  background-color: #ff3d3d;
+  color: #fff;
+}

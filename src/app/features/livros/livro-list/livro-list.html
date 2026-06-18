@@ -3,7 +3,20 @@
     <h2>Lista de livros</h2>
     <a routerLink="/cadastrar-livro" class="btn">Novo Livro</a>
   </div>
-  @if (livros.length === 0){
+
+  @if (loading) {
+  <p>Carregando livros...</p>
+  }
+
+  @if (successMessage) {
+  <div class="success-message" style="background-color: #28a745; color: white; padding: 10px; margin-bottom: 10px; border-radius: 4px;">{{ successMessage }}</div>
+  }
+
+  @if (errorMessage) {
+  <div class="error-message" style="background-color: #dc3545; color: white; padding: 10px; margin-bottom: 10px; border-radius: 4px;">{{ errorMessage }}</div>
+  }
+
+  @if (livros.length === 0 && !loading){
   <div class="empty-state">
     <p>Nenhum livro cadastrado até o momento.</p>
   </div>

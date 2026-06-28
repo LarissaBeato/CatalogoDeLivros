@@ -5,20 +5,20 @@ import { Usuario } from '../models/usuario.model';
 
 @Injectable({
   providedIn: 'root',
-})
+} )
 export class Auth {
-  private http = inject(HttpClient);
-  // Utilizando o mesmo Firebase do exemplo para consistência de funcionalidade
-  private apiUrl = 'https://exvideos-7c465-default-rtdb.firebaseio.com/usuarios';
+  private http = inject(HttpClient );
+  private apiUrl = 'https://catalogodelivros-25cb6-default-rtdb.firebaseio.com/usuarios';
   private sufix = '.json';
 
-  login(email: string, password: string): Observable<boolean> {
-    return this.http.get<Record<string, Usuario> | null>(this.apiUrl + this.sufix).pipe(
+  login(email: string, password: string ): Observable<boolean> {
+    return this.http.get<Record<string, Usuario> | null>(this.apiUrl + this.sufix ).pipe(
       map((response) => {
         if (!response) {
           throw new Error('Usuário inválido!');
         }
-        const usuarios = Object.values(response);
+        
+        const usuarios = Object.values(response).filter(item => item !== null && item !== undefined);
 
         const usuario = usuarios.find((item) => item.email === email && item.password === password);
 

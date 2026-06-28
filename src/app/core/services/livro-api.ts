@@ -10,8 +10,7 @@ type FirebaseLivro = Omit<Livro, 'id'> & { id?: unknown };
 })
 export class LivroApi {
   private http = inject(HttpClient);
-  // Utilizando uma URL de livros no mesmo Firebase do exemplo
-  private apiUrl = 'https://exvideos-7c465-default-rtdb.firebaseio.com/livros';
+  private apiUrl = 'https://catalogodelivros-25cb6-default-rtdb.firebaseio.com/livros';
   private sufix = '.json';
 
   getAll(): Observable<Livro[]> {
@@ -25,7 +24,7 @@ export class LivroApi {
           const { id: _ignoredId, ...livroData } = livro;
 
           return {
-            id: id as any, // Firebase usa string como ID
+            id: id as any, 
             ...livroData,
           };
         });

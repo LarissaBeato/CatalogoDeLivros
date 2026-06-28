@@ -1,10 +1,11 @@
-# Catálogo de Livros
-
-Projeto Angular adaptado para cadastro e listagem de livros, preservando a mesma arquitetura e o mesmo fluxo funcional do projeto original.
-
-## Campos do catálogo
+Catálogo de Livros
 
 - Título
 - Autor
 - Gênero
 - Resumo
+
+https://catalogodelivros-25cb6-default-rtdb.firebaseio.com/
+Dados do usuário:
+E-mail: aluno@teste.com    
+Senha: 123456
